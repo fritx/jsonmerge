@@ -20,9 +20,9 @@ jobs:
         node-version:
           # trying to pick up the lowest versions within the supported options
           # https://github.com/actions/node-versions/blob/main/versions-manifest.json
-          - 6
+          # - 6
           - 8
-          # - 10 # skip
+          - 10 # skip
           # - 12 # skip
           # - 14 # skip
         os:
