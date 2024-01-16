@@ -8,6 +8,10 @@ on:
   workflow_dispatch:
     # Keep this to allow for triggering manually
 
+permissions:
+  contents: write
+  pages: write
+
 jobs:
   unit-test:
     strategy:
