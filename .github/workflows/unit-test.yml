@@ -36,15 +36,25 @@ jobs:
       - name: Test
         run: npm run test:cov
 
+      - name: Debug
+        run: |
+          echo "matrix.os: ${{ matrix.os }}"
+          echo "matrix.node-version: ${{ matrix.node-version }}"
+          echo "github.event_name: ${{ github.event_name }}"
+          echo "github.event.pull_request.base.repo.name: ${{ github.event.pull_request.base.repo.name }}"
+          echo "github.event.pull_request.base.repo.full_name: ${{ github.event.pull_request.base.repo.full_name }}"
+          echo "github.event.pull_request.head.repo.full_name: ${{ github.event.pull_request.head.repo.full_name }}"
+          echo "github.repository: ${{ github.repository }}"
+          echo "github.event.pull_request.head.repo.fork: ${{ github.event.pull_request.head.repo.fork }}"
       - name: Update Coverage Badge
         # Is there a way to tell if a PR is from a forked repository? #26829
         # https://github.com/orgs/community/discussions/26829#discussioncomment-3253580
         if: >-
-          matrix.os == 'ubuntu-22.04' && matrix.node-version == 18 && ((
-            github.event_name == 'pull_request' &&
-            github.event.pull_request.head.repo.full_name == github.repository
+          ${{ matrix.os == 'ubuntu-22.04' && matrix.node-version == 18 && ((
+            github.event_name != 'pull_request'
           ) || (
-            github.event_name == 'pull_request_target' &&
-            github.event.pull_request.head.repo.full_name != github.repository
-          ))
-        uses: we-cli/coverage-badge-action@main
+            github.event.pull_request.head.repo.full_name == github.repository
+          )) }}
+        # uses: we-cli/coverage-badge-action@main
+        run: |
+          echo "Triggered Coverage Badge"
